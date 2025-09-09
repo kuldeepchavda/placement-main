@@ -14,7 +14,7 @@ import EducationEditForm from "./components/profile/EducationEditForm";
 import ExperienceCreateForm from "./components/profile/CreateExperience"; 
 import EditExperienceForm from "./components/profile/ExperienceEditForm";
 // Home component
-
+import AppliedJobs from "./components/Jobs/AppliedJobs";
 
 // Protected route wrapper
 const PrivateRoute = ({ children }) => {
@@ -42,6 +42,7 @@ function App() {
           <Route path="/experience/create" element={<ExperienceCreateForm/>}/>
           <Route path="/experience/:id" element={<EditExperienceForm/>}/>
           <Route path="/education/:id" element={<EducationEditForm/>}/>
+          <Route path="/job/applied" element={<AppliedJobs/>}/>
 
           {/* Catch-all */}
           <Route path="*" element={<Navigate to="/" />} />
