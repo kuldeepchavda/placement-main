@@ -1,0 +1,219 @@
+import { useState } from "react";
+import InputField from "../InputField";
+import TextAreaField from "../TextAreaField";
+import SkillsForm from "../SkillsForm";
+import ExperienceForm from "../ExperienceForm"
+import EducationForm from "../EducationForm"
+
+const EditProfileForm = ({ initialData = {} }) => {
+  // NORMAL USER INFO 
+  const [formData, setFormData] = useState({
+    fullName: "",
+    email: "",
+    phone: "",
+    bio: "",
+    // Change skills from a string to an array of objects
+    skills: [],
+    experience: [],
+    education: [],
+    resumeUrl: "",
+    portfolioUrl: "",
+    ...initialData,
+  });
+
+  // SKILLS 
+  // const [experience, setExperience] = useState([])
+  
+  // EXPERIENCE  
+  const [education, setEducation] = useState([])
+
+  // EDUCATION
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  // Generic handler for nested arrays (experience, education, skills)
+  const handleNestedChange = (index, e, arrayName) => {
+    const { name, value } = e.target;
+    const updatedArray = [...formData[arrayName]];
+    updatedArray[index] = { ...updatedArray[index], [name]: value };
+    setFormData((prev) => ({ ...prev, [arrayName]: updatedArray }));
+  };
+
+  // Generic handler to add a new empty object to an array
+  const handleAdd = (arrayName) => {
+    setFormData((prev) => ({
+      ...prev,
+      [arrayName]: [...prev[arrayName], {}],
+    }));
+  };
+
+  // Generic handler to remove an object from an array
+  const handleRemove = (index, arrayName) => {
+    const updatedArray = formData[arrayName].filter((_, i) => i !== index);
+    setFormData((prev) => ({ ...prev, [arrayName]: updatedArray }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("Form submitted:", formData);
+  };
+
+  return (
+    <div className="bg-gray-50 p-6 md:p-10 min-h-screen font-sans">
+      <div className="max-w-4xl mx-auto bg-white p-8 md:p-10 rounded-2xl shadow-lg border border-gray-200">
+        <h1 className="text-3xl md:text-4xl font-bold text-blue-900 mb-8 text-center">
+          Edit Profile
+        </h1>
+
+        <form onSubmit={handleSubmit} className="space-y-10">
+          {/* Personal Info */}
+          <section>
+            <h2 className="text-xl font-semibold text-gray-800 mb-4">
+              Personal Information
+            </h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <InputField
+                label="Full Name"
+                name="fullName"
+                value={formData.fullName}
+                onChange={handleInputChange}
+                placeholder="Your full name"
+              />
+              <InputField
+                label="Email Address"
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleInputChange}
+                placeholder="example@email.com"
+              />
+              <InputField
+                label="Phone Number"
+                type="tel"
+                name="phone"
+                value={formData.phone}
+                onChange={handleInputChange}
+                placeholder="+91 9876543210"
+              />
+              <TextAreaField
+                label="Bio"
+                name="bio"
+                value={formData.bio}
+                onChange={handleInputChange}
+                placeholder="Brief bio about yourself..."
+                rows={3}
+              />
+            </div>
+          </section>
+
+          {/* Skills */}
+          <section>
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-xl font-semibold text-gray-800">Skills</h2>
+              <button
+                type="button"
+                onClick={() => handleAdd("skills")}
+                className="px-4 py-2 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 transition"
+              >
+                + Add Skill
+              </button>
+            </div>
+            {formData.skills.map((skill, index) => (
+              <SkillsForm
+                key={index}
+                skill={skill}
+                index={index}
+                handleChange={handleNestedChange}
+                handleRemove={(idx) => handleRemove(idx, "skills")}
+              />
+            ))}
+          </section>
+
+          {/* Experience */}
+          <section>
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-xl font-semibold text-gray-800">
+                Work Experience
+              </h2>
+              <button
+                type="button"
+                onClick={() => handleAdd("experience")}
+                className="px-4 py-2 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 transition"
+              >
+                + Add Experience
+              </button>
+            </div>
+            {formData.experience.map((exp, index) => (
+              <ExperienceForm
+                key={index}
+                experience={exp}
+                index={index}
+                handleChange={handleNestedChange}
+                handleRemove={(idx) => handleRemove(idx, "experience")}
+              />
+            ))}
+          </section>
+
+          {/* Education */}
+          <section>
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-xl font-semibold text-gray-800">Education</h2>
+              <button
+                type="button"
+                onClick={() => handleAdd("education")}
+                className="px-4 py-2 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 transition"
+              >
+                + Add Education
+              </button>
+            </div>
+            {formData.education.map((edu, index) => (
+              <EducationForm
+                key={index}
+                education={edu}
+                index={index}
+                handleChange={handleNestedChange}
+                handleRemove={(idx) => handleRemove(idx, "education")}
+              />
+            ))}
+          </section>
+
+          {/* Documents */}
+          <section>
+            <h2 className="text-xl font-semibold text-gray-800 mb-4">Documents</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <InputField
+                label="Resume URL"
+                name="resumeUrl"
+                value={formData.resumeUrl}
+                onChange={handleInputChange}
+                placeholder="https://your-resume-link.com"
+              />
+              <InputField
+                label="Portfolio URL"
+                name="portfolioUrl"
+                value={formData.portfolioUrl}
+                onChange={handleInputChange}
+                placeholder="https://your-portfolio-link.com"
+              />
+            </div>
+          </section>
+
+          {/* Submit */}
+          <div className="text-center">
+            <button
+              type="submit"
+              className="px-6 py-3 bg-green-600 text-white font-medium text-lg rounded-xl shadow hover:bg-green-700 transition"
+            >
+              Save Profile
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+};
+
+export default EditProfileForm;
