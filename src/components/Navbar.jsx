@@ -16,6 +16,7 @@ const LinkTag = ({ route_, name, onClick, className }) => (
 
 const Navbar = () => {
   const { user, logout } = useContext(AuthContext);
+  console.log("user ",user);
   const [menuOpen, setMenuOpen] = useState(false);
 // /job/applied
   // Define menu items once

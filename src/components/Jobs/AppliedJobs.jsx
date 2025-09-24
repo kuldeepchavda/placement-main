@@ -7,7 +7,7 @@ const AppliedJobs = () => {
   const { request } = useApi();
 
   const [appliedJobs, setAppliedJobs] = useState([]);
-
+console.log(user);
   // Fetch applied jobs
   const fetchAppliedJobs = async () => {
     try {
@@ -40,7 +40,7 @@ const AppliedJobs = () => {
           body: JSON.stringify({ applicationId }),
         }
       );
-      console.log("Undo response:", data);
+      alert(data.msg);
       fetchAppliedJobs();
     } catch (error) {
       console.error("Error undoing application:", error);
@@ -58,7 +58,7 @@ const AppliedJobs = () => {
         },
         body: JSON.stringify({ jobId }),
       });
-      console.log("Reapply response:", data);
+    alert(data.msg);
       fetchAppliedJobs();
     } catch (error) {
       console.error("Error reapplying:", error);
@@ -73,7 +73,7 @@ const AppliedJobs = () => {
         <p className="text-gray-600">You haven’t applied to any jobs yet.</p>
       ) : (
        <div className="space-y-4 w-full flex flex-wrap gap-4 p-4">
-  {appliedJobs.map((app) => (
+  {Array.isArray(appliedJobs) && appliedJobs.map((app) => (
     <div
       key={app._id}
       className="w-full   sm:w-[48%] md:w-[30%] lg:w-[23%] p-4 rounded-xl border border-gray-200 shadow-sm bg-white flex flex-col justify-between"

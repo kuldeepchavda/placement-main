@@ -22,7 +22,7 @@ const JobList = () => {
                     },
                     body: JSON.stringify({ "jobId": id })
                 })
-            console.log(data);
+            alert(data.msg);
         } catch (error) {
             console.log(error.message);
         }
