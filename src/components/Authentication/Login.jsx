@@ -28,6 +28,7 @@ export default function Login() {
           </h1>
           <p className="text-gray-500 text-sm">
             Please enter your credentials below
+            <br />student@123.com, student
           </p>
         </div>
 

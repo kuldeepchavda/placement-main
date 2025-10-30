@@ -1,6 +1,6 @@
 import { useState, useContext } from "react";
 import { Link } from "react-router-dom";
-import logo from "../assets/logo.jpg";
+import logo from "../assets/logo3.png";
 import hamburger from "../assets/hamburger2.png";
 import { AuthContext } from "../context/AuthContext";
 
@@ -39,7 +39,7 @@ const Navbar = () => {
           <img
             src={logo}
             alt="company logo"
-            className="w-12 md:w-16 rounded-full border-2 border-orange-500 hover:border-orange-400 transition-colors duration-200"
+            className="w-12 md:w-16 rounded-full border-2   hover:border-orange-400 transition-colors duration-200"
           />
         </Link>
 

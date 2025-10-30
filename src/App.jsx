@@ -15,6 +15,7 @@ import ExperienceCreateForm from "./components/profile/CreateExperience";
 import EditExperienceForm from "./components/profile/ExperienceEditForm";
 // Home component
 import AppliedJobs from "./components/Jobs/AppliedJobs";
+import Footer from "./components/Footer";
 
 // Protected route wrapper
 const PrivateRoute = ({ children }) => {
@@ -26,7 +27,7 @@ const PrivateRoute = ({ children }) => {
 
 function App() {
   return (
-    <div className="bg-zinc-100">
+    <div className="bg-zinc-100 min-h-screen">
       <Navbar />
       <div className=" md:w-11/12 mx-auto ">
         <Routes>
@@ -38,15 +39,16 @@ function App() {
           <Route path="/list_jobs" element={<JobList />} />
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/editprofile" element={<EditProfileForm />} />
-          <Route path="/education/create" element={<EducationCreateForm/>}/>
           <Route path="/experience/create" element={<ExperienceCreateForm/>}/>
           <Route path="/experience/:id" element={<EditExperienceForm/>}/>
+          <Route path="/education/create" element={<EducationCreateForm/>}/>
           <Route path="/education/:id" element={<EducationEditForm/>}/>
           <Route path="/job/applied" element={<AppliedJobs/>}/>
 
           {/* Catch-all */}
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
+        <Footer/>
       </div>
     </div>
   );

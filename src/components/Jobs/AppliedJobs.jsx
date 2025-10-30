@@ -47,7 +47,6 @@ console.log(user);
     }
   };
 
-  // Re-apply application
   const reapplyForJob = async (jobId) => {
     try {
         console.log("job id",jobId)
@@ -72,11 +71,11 @@ console.log(user);
         {appliedJobs.length === 0 ? (
         <p className="text-gray-600">You haven’t applied to any jobs yet.</p>
       ) : (
-       <div className="space-y-4 w-full flex flex-wrap gap-4 p-4">
+       <div className="space-y-4 w-full p-4">
   {Array.isArray(appliedJobs) && appliedJobs.map((app) => (
     <div
       key={app._id}
-      className="w-full   sm:w-[48%] md:w-[30%] lg:w-[23%] p-4 rounded-xl border border-gray-200 shadow-sm bg-white flex flex-col justify-between"
+      className="w-full p-4 rounded-xl border border-gray-200 shadow-sm bg-white flex flex-row justify-between"
     >
       {/* Job Info */}
       <div>

@@ -7,18 +7,37 @@ const AuthProvider = ({ children }) => {
 
   const navigate = useNavigate();
   const [user, setUser] = useState();
+  const [userDetails, setUserDetails] = useState();
   const [loading, setLoading] = useState();
   const [errInfo, setErrInfo] = useState();
   // this is working 
+
+  async function fetchUserDetails() {
+    fetch(`${import.meta.env.VITE_BACKEND_URL}/user/me`, {
+      credentials: "include",
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data) {
+          console.log("got user details", data);
+          setUserDetails(data);
+          // console.log("everve",data.email);
+        }
+        setLoading(false);
+      }).
+      catch((errr) => {
+        console.log("Err", errr)
+      });
+  }
   useEffect(() => {
     async function g(params) {
-      fetch(`${import.meta.env.VITE_BACKEND_URL}/user/me`, {
+      fetch(`${import.meta.env.VITE_BACKEND_URL}/auth/user/checksession`, {
         credentials: "include",
       })
         .then((res) => res.json())
         .then((data) => {
-          if (data) {
-            setUser(data);
+          if (data.verified) {
+            setUser(data.user.email);
             // console.log("everve",data.email);
           }
           setLoading(false);
@@ -26,6 +45,9 @@ const AuthProvider = ({ children }) => {
         catch((errr) => {
           console.log("Err", errr)
         });
+
+
+      fetchUserDetails();
     }
     g();
   }, []);
@@ -92,7 +114,7 @@ const AuthProvider = ({ children }) => {
   const testingData = "Context provider";
 
   return (
-    <AuthContext.Provider value={{ testingData, user, login, signup, logout, loading, errInfo }}>
+    <AuthContext.Provider value={{ testingData, user, login, signup, logout, loading, errInfo, userDetails , fetchUserDetails}}>
       {children}
     </AuthContext.Provider>
   )

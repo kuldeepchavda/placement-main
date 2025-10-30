@@ -8,7 +8,7 @@ import { AuthContext } from "../../context/AuthContext";
 import useApi from "../../utils/Request";
 const EditProfileForm = ({ initialData = {} }) => {
   const { request } = useApi();
-  const { user } = useContext(AuthContext);
+  const { user, userDetails, fetchUserDetails } = useContext(AuthContext);
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -16,32 +16,32 @@ const EditProfileForm = ({ initialData = {} }) => {
     bio: "",
     resumeUrl: "",
     portfolioUrl: "",
-    skills: [],        // keep skills inside formData
-    experience: [],    // keep experience inside formData
-    education: [],     // keep education inside formData
+    skills: [],         
+    experience: [],     
+    education: [],     
     ...initialData,
   });
   useEffect(() => {
     if (user) {
+      fetchUserDetails();
       setFormData((prev) => ({
         ...prev,
-        fullName: user.fullName || "",
-        email: user.email || "",
-        phone: user.phone || "",
-        bio: user.bio || "",
-        skills: user.skills || [],
-        // don’t reset resumeUrl/portfolio if already edited
-        resumeUrl: prev.resumeUrl || "",
-        portfolioUrl: prev.portfolioUrl || "",
+        fullName: userDetails?.fullName || "",
+        email: userDetails?.email || "",
+        phone: userDetails?.phone || "",
+        bio: userDetails?.bio || "",
+        skills: userDetails?.skills || [],
+        resumeUrl: userDetails?.resumeUrl || "",
+        portfolioUrl: userDetails?.portfolioUrl || "",
       }));
     }
+    
   }, [user]);
 
 
   useEffect(() => { }, [])
 
 
-  // Normal inputs (name, email, etc.)
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -57,10 +57,13 @@ const EditProfileForm = ({ initialData = {} }) => {
           "Content-Type": "Application/json"
         },
         body:JSON.stringify(formData)
-      })
+      })  
+      // if(res.ok) {
+        alert("Saved the changes...")
+      // }
       console.log("responded",res);
     } catch (error) {
-
+console.log("Error updating profile", error.message)
     }
 
   };
@@ -73,7 +76,6 @@ const EditProfileForm = ({ initialData = {} }) => {
         </h1>
 
         <form onSubmit={handleSubmit} className="space-y-10">
-          {/* Personal Info */}
           <section>
             <h2 className="text-xl font-semibold text-gray-800 mb-4">
               Personal Information
@@ -120,9 +122,9 @@ const EditProfileForm = ({ initialData = {} }) => {
               </div>
             </div>
           </section>
-          <ExperienceForm />
+          <ExperienceForm  edit={true} />
 
-          <EducationForm />
+          <EducationForm edit={true} />
           <section>
             <h2 className="text-xl font-semibold text-gray-800 mb-4">Documents</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -143,7 +145,6 @@ const EditProfileForm = ({ initialData = {} }) => {
             </div>
           </section>
 
-          {/* Submit */}
           <div className="text-center">
             <button
               type="submit"

@@ -1,13 +1,13 @@
 // HomePage.jsx
 import { Link } from "react-router-dom";
-import ModalExample from "../utils/ModalExaplles";
+import ModalExample from "../utils/Modals/ModalExaplles";
 const HomePage = () => {
   return (
     <div className="flex flex-col items-center justify-center text-center py-16 px-4 font-inter">
-      <ModalExample />
+      {/* <ModalExample /> */}
       {/* Hero Section */}
       <h1 className="text-3xl md:text-5xl font-bold text-gray-800 mb-4">
-        Welcome to <span className="text-blue-600">LaunchBoard</span>
+        Welcome to <span className="text-blue-600">Emplifier</span>
       </h1>
       <p className="text-gray-600 max-w-2xl mb-6 md:text-lg">
         Your one-stop platform to manage jobs, connect with talent, and oversee
